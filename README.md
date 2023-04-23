@@ -6,7 +6,7 @@ CS5200 Database Management System Final Project
 
 In this project, we designed and created a Husky Course Web Registration System, which is a web-based registration system for Northeastern University. It is mainly used for course schedule management, course registration, and classroom assignment. Our project used Python as the programming language, based on the Django framework. As for the database, it connected to MySQL on Google Cloud Platform(GCP).
 
-**Stack**
+**Stacks**
 
 Python, HTML, CSS, JavaScript, JQuery, Bootstrap, Django, MySQL, Google Cloud Platform
 
