@@ -1,0 +1,241 @@
+{% extends 'hod_template/base_template.html' %}
+
+{% block page_title %}
+    Add Course
+{% endblock page_title %}
+
+{% block main_content %}
+
+{% load static %}
+
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Add Course</h3>
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form role="form" method="POST" action="{% url 'add_course_save' %}">
+            {% csrf_token %}
+
+                        
+            {% comment %} Display Messages {% endcomment %}
+            {% if messages %}
+            <div class="form-group">
+              <div class="col-12">                                                    {% for message in messages %}
+                {% if message.tags == "error" %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                    {{ message }}
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="alert"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                {% elif message.tags == "success" %}
+                <div
+                  class="alert alert-success alert-dismissible fade show"
+                  role="alert"
+                  style="margin-top: 10px"
+                >
+                  {{ message }}
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="alert"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+            {% endif %}
+
+            <div class="card-body">
+              <div class="form-group">
+                <label>Course Name </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="course"
+                  placeholder="Enter Course Name"
+                />
+              </div>
+
+              <div class="form-group">
+                <label>Set Campus </label>
+                <select class="form-control" name="campus">
+                  <option
+                    selected="selected"
+                    disabled="disabled"
+                    style="display: none"
+                    value=""
+                  ></option>
+                  {% for campus in campuses %}
+                  <option value="{{ campus.id }}">{{ campus.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+
+              <!-- <div class="form-group">
+                <label>Department </label>
+                <select class="form-control" name="department">
+                  <option
+                    selected="selected"
+                    disabled="disabled"
+                    style="display: none"
+                    value=""
+                  ></option>
+                  {% for department in departments %}
+                  <option value="{{ department.id }}">
+                    {{ department.name }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div> -->
+
+                            <div class="form-group">
+                                <label>Assign Teacher </label>
+                                <select class="form-control" name="teacher">
+                                  <option
+                    selected="selected"
+                    disabled="disabled"
+                    style="display: none"
+                    value=""
+                  ></option>
+                                    {% for teacher in teachers %}
+                                        <option value="{{ teacher.id }}">{{ teacher.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Assign Classroom </label>
+                                <select class="form-control" name="classroom">
+                                  <option
+                    selected="selected"
+                    disabled="disabled"
+                    style="display: none"
+                    value=""
+                  ></option>
+                                    {% for classroom in classrooms %}
+                                        <option value="{{ classroom.id }}">{{ classroom.campus_id.name }} - {{ classroom.id }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Capacity </label>
+                                <input type="number" class="form-control" name="capacity" placeholder="Enter max number of students">
+                            </div>
+
+
+              <!-- <div class="form-group">
+                <label>Assign Teacher </label>
+                <select class="form-control" name="teacher">
+                  <option
+                    selected="selected"
+                    disabled="disabled"
+                    style="display: none"
+                    value=""
+                  ></option>
+                  {% for teacher in teachers %}
+                  <option value="{{ teacher.id }}">{{ teacher.name }}</option>
+                  {% endfor %}
+                </select>
+              </div> -->
+
+              <div class="form-group">
+                <label>Set Instructional Method </label>
+                <select class="form-control" name="method">
+                  <option
+                    selected="selected"
+                    disabled="disabled"
+                    style="display: none"
+                    value=""
+                  ></option>
+                  {% for method in methods %}
+                  <option value="{{ method.id }}">{{ method.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Set Course Time </label>
+                <div class="row">
+                  <div class="col-md-3">
+                    <select class="form-control" name="day">
+                      <option
+                        selected="selected"
+                        disabled="disabled"
+                        style="display: none"
+                        value=""
+                      ></option>
+                      {% for day in days %}
+                      <option value="{{ day }}">{{ day }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <input
+                      type="time"
+                      class="form-control"
+                      name="time"
+                      placeholder="Enter Course Time"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div class="form-group">
+                <label>Assign Classroom </label>
+                <select class="form-control" name="classroom">
+                  <option
+                    selected="selected"
+                    disabled="disabled"
+                    style="display: none"
+                    value=""
+                  ></option>
+                  {% for classroom in classrooms %}
+                  <option value="{{ classroom.id }}">
+                    {{ classroom.name }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div> -->
+
+              <!-- <div class="form-group">
+                <label>Capacity </label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="capacity"
+                  placeholder="Enter max number of students"
+                />
+              </div> -->
+            </div>
+            <!-- /.card-body -->
+
+            <div class="card-footer">
+              <button type="submit" class="btn btn-primary">Add Course</button>
+            </div>
+          </form>
+        </div>
+        <!-- /.card -->
+      </div>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+</section>
+
+{% endblock main_content %}

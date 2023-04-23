@@ -1,0 +1,194 @@
+{% extends 'hod_template/base_template.html' %}
+
+{% block page_title %}
+    Edit Course | #ID : {{ course.id }}
+{% endblock page_title %}
+
+{% block main_content %}
+
+{% load static %}
+
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Edit Course</h3>
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form role="form" method="POST" action="{% url 'edit_course_save' %}">
+            {% csrf_token %}
+
+                        
+            {% comment %} Display Messages {% endcomment %}
+            {% if messages %}
+            <div class="form-group">
+              <div class="col-12">
+                {% for message in messages %}
+                {% if message.tags == "error" %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                  {{ message }}
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="alert"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                {% elif message.tags == "success" %}
+                <div
+                  class="alert alert-success alert-dismissible fade show"
+                  role="alert"
+                  style="margin-top: 10px"
+                >
+                  {{ message }}
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="alert"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+            {% endif %}
+
+            <div class="card-body">
+              <div class="form-group">
+                <label>Course Name </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="course"
+                  value="{{ course.course_name }}"
+                />
+                <input type="hidden" name="course_id" value="{{ course.id }}" />
+              </div>
+
+              <div class="form-group">
+                <label>Campus </label>
+                <select class="form-control" name="campus">
+                  <option selected="selected" value="{{ course.campus_id.id }}">
+                    {{ course.campus_id.name }}
+                  </option>
+                  {% for campus in campuses %} 
+                    {% if campus != course.campus_id %}
+                    <option value="{{ campus.id }}">{{ campus.name }}</option>
+                    {% endif %} 
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Instructional Method </label>
+                <select class="form-control" name="method">
+                  <option
+                    selected="selected"
+                    value="{{ course.instructional_method.id }}"
+                  >
+                    {{ course.instructional_method.name }}
+                  </option>
+                  {% for method in methods %} 
+                  {% if method != course.instructional_method %}
+                  <option value="{{ method.id }}">{{ method.name }}</option>
+                  {% endif %} 
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Classroom </label>
+                <select class="form-control" name="classroom">
+                  <option
+                    selected="selected"
+                    value="{{ course.classroom_id.id }}"
+                  >
+                    {{ course.classroom_id.name }}
+                  </option>
+                  {% for classroom in classrooms %} 
+                  {% if classroom != course.classroom_id %}
+                  <option value="{{ classroom.id }}">
+                    {{ classroom.campus_id.name }} - {{ classroom.id }}
+                  </option>
+                  {% endif %} 
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Teacher </label>
+                <select class="form-control" name="teacher">
+                  <option selected="selected" value="{{ course.teacher_id.id }}">
+                    {{ course.teacher_id.name }}
+                  </option>
+                  {% for teacher in teachers %} 
+                  {% if teacher != course.teacher_id %}
+                  <option value="{{ teacher.id }}">{{ teacher.name }}</option>
+                  {% endif %} 
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Capacity </label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="capacity"
+                  value="{{ course.capacity }}"
+                />
+              </div>
+              <div class="form-group">
+                <label>Time </label>
+                <div class="row">
+                  <div class="col-md-3">
+                    <select class="form-control" name="day">
+                      <option
+                        selected="selected"
+                        value="{{ course.day }}"
+                      >{{ course.day }}</option>
+                      {% for day in days %} {% if day != course.day %}
+                      <option value="{{ day }}">{{ day }}</option>
+                      {% endif %} {% endfor %}
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <input
+                      type="time"
+                      class="form-control"
+                      name="time" value="{{ course.time | time:'H:i' }}"
+                    />
+                  </div>
+                </div>
+              </div>
+            
+            </div>
+
+            
+
+            <!-- /.card-body -->
+
+            <div class="card-footer">
+              <button type="submit" class="btn btn-primary">
+                Update Course
+              </button>
+            </div>
+          </form>
+        </div>
+        <!-- /.card -->
+      </div>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+</section>
+
+{% endblock main_content %}

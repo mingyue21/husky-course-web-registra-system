@@ -1,0 +1,84 @@
+{% extends 'student_template/base_template.html' %}
+
+{% block page_title %}
+Registration
+{% endblock page_title %}
+
+{% block main_content %}
+
+{% load static %}
+
+<section class="content">
+	<div class="container-fluid">
+		
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card card-primary">
+					<div class="card-header">
+						<h3 class="card-title">Registration</h3>
+					</div>
+					
+
+
+					<div class="card-body">
+
+						<div class="card-title">
+							Registration Status: 
+							{% if status is True %}
+							<span style="color: green">Approved</span>
+							{% elif status is False %}
+							<span style="color: red">Declined</span>
+							{% else %}
+							Pending
+							{% endif %}
+						</div>
+
+						<div class="table-responsive">
+							<table class="table">
+								<thead class="thead-light">
+								<tr>
+                  <th> </th>
+									<th>Course Name</th>
+									<th>Instructor</th>
+									<th>Time</th>
+									<th>Instructional Method</th>
+									<th>Classroom</th>
+								</tr>
+								</thead>
+								
+								{% for course in courses %}
+									{% if course %}
+									<tr>
+										<td>{{ forloop.counter }}</td>
+										<td>{{ course.course_name }}</td>
+										<td>{{ course.teacher_id.name }}</td>
+										<td>{{ course.day }} {{ course.time }}</td>
+										<td>{{ course.instructional_method.name }}</td>
+										<td>{{ course.classroom_id.campus_id.name }} - {{ course.classroom_id.id }}</td>
+									</tr>
+									{% endif %}
+								{% endfor %}
+
+							</table>
+						</div>
+					</div>
+
+          <div class="card-footer">
+            {% url 'student_register_course' as student_register_course %}
+            <a href="{{ student_register_course }}">
+              <button type="button" class="btn btn-primary">Modify Registration</button>
+            </a>
+          </div>
+					<!-- /.card-body -->
+				</div>
+			</div>
+		</div>
+	
+	</div><!-- /.container-fluid -->
+</section>
+
+{% endblock main_content %}
+
+{% block custom_js %}
+
+{% endblock custom_js %}

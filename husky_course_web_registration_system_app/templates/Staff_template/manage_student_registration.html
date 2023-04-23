@@ -1,0 +1,107 @@
+{% extends 'staff_template/base_template.html' %}
+
+{% block page_title %}
+Manage Student Registration
+{% endblock page_title %}
+
+{% block main_content %}
+
+{% load static %}
+
+<section class="content">
+	<div class="container-fluid">
+		
+		<div class="row">
+			<div class="col-md-12">
+
+				<div class="card card-primary">
+					<div class="card-header">
+						<h3 class="card-title">{{ department.name }} Department</h3>
+					</div>
+					
+          {% comment %} Display Messages {% endcomment %}
+          {% if messages %}
+          <div class="form-group">
+          <div class="col-12">
+              {% for message in messages %}
+              {% if message.tags == "error" %}
+                  <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                  {{ message }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+                  </div>
+              {% elif message.tags == "success" %}
+                  <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                  {{ message }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+                  </div>
+              {% endif %}
+              {% endfor %}
+          </div>
+          </div>
+          {% endif %}
+          
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table">
+								<thead class="thead-light">
+								<tr>
+                  <th> </th>
+									<th>Student Name</th>
+                  <th>Campus</th>
+									<th>Course 1</th>
+									<th>Course 2</th>
+                  <th>Status</th>
+									<th>Action</th>
+								</tr>
+								</thead>
+								
+								{% for student in students %}
+									<tr>
+										<td>{{ forloop.counter }}</td>
+										<td>{{ student.admin.first_name }} {{ student.admin.last_name }}</td>
+										<td>{{ student.campus.name }}</td>
+										<td>{{ student.course1.course_name }}</td>
+										<td>{{ student.course2.course_name }}</td>
+                    <td>
+                      {% if student.is_approved is True %}
+                      <span style="color:green">Approved</span>
+                      {% elif student.is_approved is False %}
+                      <span style="color:red">Declined</span>
+                      {% else %}
+                      Pending
+                      {% endif %}
+                    </td>
+										<td>
+                      {% if student.is_approved is True %}
+                      <a href="{% url 'decline_student_registration' student.id %}" class="btn btn-danger">Decline</a> 
+                      {% elif student.is_approved is False %}
+                      <a href="{% url 'approve_student_registration' student.id %}" class="btn btn-success">Approve</a> 
+                      {% else %}
+                      <a href="{% url 'approve_student_registration' student.id %}" class="btn btn-success">Approve</a> 
+                      <a href="{% url 'decline_student_registration' student.id %}" class="btn btn-danger">Decline</a> 
+                      {% endif %}
+                    </td>
+									</tr>
+								{% endfor %}
+
+							</table>
+						</div>
+					</div>
+
+					<!-- /.card-body -->
+				</div>
+			</div>
+		</div>
+	
+	</div><!-- /.container-fluid -->
+</section>
+
+{% endblock main_content %}
+
+{% block custom_js %}
+
+{% endblock custom_js %}
